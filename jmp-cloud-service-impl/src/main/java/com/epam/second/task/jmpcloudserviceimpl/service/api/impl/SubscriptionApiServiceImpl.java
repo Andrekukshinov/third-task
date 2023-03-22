@@ -16,7 +16,7 @@ public class SubscriptionApiServiceImpl implements SubscriptionApiService {
     private final SubscriptionMapper subscriptionMapper;
     private final SubscriptionService subscriptionService;
 
-    public SubscriptionApiServiceImpl(SubscriptionMapperImpl subscriptionMapper, SubscriptionService subscriptionService) {
+    public SubscriptionApiServiceImpl(SubscriptionMapper subscriptionMapper, SubscriptionService subscriptionService) {
         this.subscriptionMapper = subscriptionMapper;
         this.subscriptionService = subscriptionService;
     }
