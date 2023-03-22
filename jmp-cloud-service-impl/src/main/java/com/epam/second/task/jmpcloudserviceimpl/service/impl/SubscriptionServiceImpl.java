@@ -17,41 +17,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
-    private final SubscriptionMapper subscriptionMapper;
     private final Map<Long, Subscription> subscriptions = new ConcurrentHashMap<>();
     private final UserService userService;
 
-    public SubscriptionServiceImpl(SubscriptionMapper subscriptionMapper, UserService userService) {
-        this.subscriptionMapper = subscriptionMapper;
+    public SubscriptionServiceImpl(UserService userService) {
         this.userService = userService;
     }
 
     @Override
-    public Subscription createSubscription(SubscriptionRequestDto subscriptionRequestDto) {
-        Subscription subscription = subscriptionMapper.toSubscription(subscriptionRequestDto);
-
-        Long subscriptionId = prepareSubscription(subscriptionRequestDto, subscription);
+    public Subscription createSubscription(Subscription subscription) {
+        Long subscriptionId = prepareSubscription( subscription);
 
         subscriptions.put(subscriptionId, subscription);
         return subscription;
     }
 
-    private Long prepareSubscription(SubscriptionRequestDto subscriptionRequestDto, Subscription subscription) {
-        Long userId = subscriptionRequestDto.getUserId();
-        User user = userService.getUserById(userId);
-        subscription.setUser(user);
-        Long subscriptionId = subscriptions.size() == 0 ? 1L : Collections.max(subscriptions.keySet()) + 1L;
-        subscription.setId(subscriptionId);
-        return subscriptionId;
+    private Long prepareSubscription(Subscription subscriptionRequest) {
+        Long userId = subscriptionRequest.getUser().getId();
+        userService.getUserById(userId);
+        return subscriptions.size() == 0 ? 1L : Collections.max(subscriptions.keySet()) + 1L;
     }
 
     @Override
-    public Subscription updateSubscription(Long subscriptionId, SubscriptionRequestDto subscriptionRequestDto) {
+    public Subscription updateSubscription(Long subscriptionId, Subscription updatedSubscription) {
         Subscription subscriptionToUpdate = subscriptions.get(subscriptionId);
         if (subscriptionToUpdate == null) {
             throw new SubscriptionNotFoundException();
         }
-        Subscription updatedSubscription = subscriptionMapper.toSubscription(subscriptionRequestDto);
         updatedSubscription.setUser(subscriptionToUpdate.getUser());
         updatedSubscription.setId(subscriptionId);
         subscriptions.put(subscriptionId, updatedSubscription);

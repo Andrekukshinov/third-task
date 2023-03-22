@@ -5,6 +5,7 @@ import com.epam.second.task.jmpdto.mapper.SubscriptionMapper;
 import com.epam.second.task.jmpdto.model.SubscriptionRequestDto;
 import com.epam.second.task.jmpdto.model.SubscriptionResponseDto;
 import com.epam.second.task.jmpserviceapi.service.SubscriptionService;
+import com.epam.second.task.jmpserviceapi.service.api.SubscriptionApiService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,28 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
-    private final SubscriptionService subscriptionService;
-    private final SubscriptionMapper subscriptionMapper;
+    private final SubscriptionApiService subscriptionService;
 
 
-    public SubscriptionController(SubscriptionService subscriptionService, SubscriptionMapper subscriptionMapper) {
+    public SubscriptionController(SubscriptionApiService subscriptionService) {
         this.subscriptionService = subscriptionService;
-        this.subscriptionMapper = subscriptionMapper;
     }
 
     @PostMapping
     public SubscriptionResponseDto createSubscription(@RequestBody SubscriptionRequestDto subscriptionDto) {
-        Subscription subscription = subscriptionService.createSubscription(subscriptionDto);
-
-        return subscriptionMapper.toResponseDto(subscription);
+        return subscriptionService.createSubscription(subscriptionDto);
     }
 
     @PutMapping("/{id}")
     public SubscriptionResponseDto updateSubscription(@PathVariable Long id, @RequestBody SubscriptionRequestDto subscriptionDto) {
-
-        Subscription subscription = subscriptionService.updateSubscription(id, subscriptionDto);
-
-        return subscriptionMapper.toResponseDto(subscription);
+        return subscriptionService.updateSubscription(id, subscriptionDto);
     }
 
     @DeleteMapping("/{id}")
@@ -51,19 +45,12 @@ public class SubscriptionController {
 
     @GetMapping("/{id}")
     public SubscriptionResponseDto getSubscription(@PathVariable Long id) {
-
-        Subscription subscription = subscriptionService.getSubscription(id);
-
-        return subscriptionMapper.toResponseDto(subscription);
-
+        return subscriptionService.getSubscription(id);
     }
 
     @GetMapping
     public List<SubscriptionResponseDto> getAllSubscription() {
-        return subscriptionService.getAllSubscriptions()
-                .stream()
-                .map(subscriptionMapper::toResponseDto)
-                .collect(Collectors.toList());
+        return new ArrayList<>(subscriptionService.getAllSubscriptions());
     }
 
 }

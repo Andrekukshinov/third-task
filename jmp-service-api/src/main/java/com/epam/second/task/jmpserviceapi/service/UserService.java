@@ -7,9 +7,9 @@ import com.epam.second.task.jmpdto.model.UserResponseDto;
 import java.util.List;
 
 public interface UserService {
-    User createUser(UserRequestDto userRequestDto);
+    User createUser(User userRequestDto);
 
-    User updateUser(Long userId, UserRequestDto userRequestDto);
+    User updateUser(Long userId, User userRequestDto);
 
     void deleteUser(Long userId);
 

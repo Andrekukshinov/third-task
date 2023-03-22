@@ -7,13 +7,13 @@ import com.epam.second.task.jmpdto.model.SubscriptionResponseDto;
 import java.util.List;
 
 public interface SubscriptionService {
-    Subscription createSubscription(SubscriptionRequestDto subscriptionRequestDto);
+    Subscription createSubscription(Subscription subscription);
 
     void deleteSubscription(Long subscriptionId);
 
     Subscription getSubscription(Long id);
 
-    Subscription updateSubscription(Long subscriptionId, SubscriptionRequestDto subscriptionRequestDto);
+    Subscription updateSubscription(Long subscriptionId, Subscription subscription);
 
     List<Subscription> getAllSubscriptions();
 }

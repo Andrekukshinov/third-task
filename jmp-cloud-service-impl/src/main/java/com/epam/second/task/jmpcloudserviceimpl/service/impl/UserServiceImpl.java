@@ -18,16 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
     private final Map<Long, User> users = new ConcurrentHashMap<>();
 
-    public UserServiceImpl(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
-
     @Override
-    public User createUser(UserRequestDto userRequestDto) {
-        User user = userMapper.toUser(userRequestDto);
+    public User createUser(User user) {
         Long userId = prepareUser(user);
         users.put(userId, user);
         return user;
@@ -40,15 +34,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(Long userId, UserRequestDto userRequestDto) {
+    public User updateUser(Long userId, User user) {
         User userToUpdate = users.get(userId);
         if (userToUpdate == null) {
             throw new UserNotFoundException(userId);
         }
-        User updatedUser = userMapper.toUser(userRequestDto);
-        updatedUser.setId(userId);
-        users.put(userId, updatedUser);
-        return updatedUser;
+        user.setId(userId);
+        users.put(userId, user);
+        return user;
     }
 
     @Override
