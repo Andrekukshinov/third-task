@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootTest
 @ComponentScan(lazyInit = true, basePackages = "com.epam.second.task")
-@EnableJpaRepositories
-@EntityScan(basePackages = "com.epam.second.task")
 class JmpServiceRestApplicationTests {
 
 	@Test
