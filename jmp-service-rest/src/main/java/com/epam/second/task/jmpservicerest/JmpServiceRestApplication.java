@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = "com.epam.second.task")
-@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.epam.second.task")
 @EntityScan(basePackages = "com.epam.second.task")
 public class JmpServiceRestApplication {
