@@ -2,73 +2,56 @@ package com.epam.second.task.jmpcloudserviceimpl.service.impl;
 
 import com.epam.second.task.jmpcloudserviceimpl.excpetion.SubscriptionNotFoundException;
 import com.epam.second.task.jmpdto.entity.Subscription;
-import com.epam.second.task.jmpdto.entity.User;
-import com.epam.second.task.jmpdto.mapper.SubscriptionMapper;
-import com.epam.second.task.jmpdto.model.SubscriptionRequestDto;
+import com.epam.second.task.jmpserviceapi.repository.SubscriptionRepository;
 import com.epam.second.task.jmpserviceapi.service.SubscriptionService;
-import com.epam.second.task.jmpserviceapi.service.UserService;
+import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
-    private final Map<Long, Subscription> subscriptions = new ConcurrentHashMap<>();
-    private final UserService userService;
+    private final SubscriptionRepository subscriptionRepository;
 
-    public SubscriptionServiceImpl(UserService userService) {
-        this.userService = userService;
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository) {
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     @Override
     public Subscription createSubscription(Subscription subscription) {
-        Long subscriptionId = prepareSubscription( subscription);
-
-        subscriptions.put(subscriptionId, subscription);
-        return subscription;
+        subscription.setStartDate(LocalDate.now());
+        return subscriptionRepository.save(subscription);
     }
 
-    private Long prepareSubscription(Subscription subscriptionRequest) {
-        Long userId = subscriptionRequest.getUser().getId();
-        userService.getUserById(userId);
-        return subscriptions.size() == 0 ? 1L : Collections.max(subscriptions.keySet()) + 1L;
-    }
-
+    @Transactional
     @Override
     public Subscription updateSubscription(Long subscriptionId, Subscription updatedSubscription) {
-        Subscription subscriptionToUpdate = subscriptions.get(subscriptionId);
-        if (subscriptionToUpdate == null) {
-            throw new SubscriptionNotFoundException();
-        }
+        Subscription subscriptionToUpdate = subscriptionRepository.findById(subscriptionId)
+                .orElseThrow(SubscriptionNotFoundException::new);
         updatedSubscription.setUser(subscriptionToUpdate.getUser());
         updatedSubscription.setId(subscriptionId);
-        subscriptions.put(subscriptionId, updatedSubscription);
-        return updatedSubscription;
+        return subscriptionRepository.save(updatedSubscription);
     }
 
     @Override
     public void deleteSubscription(Long subscriptionId) {
-        if (subscriptions.remove(subscriptionId) == null) {
-            throw new SubscriptionNotFoundException();
-        }
+        subscriptionRepository.deleteById(subscriptionId);
     }
 
     @Override
     public Subscription getSubscription(Long subscriptionId) {
-        Subscription subscription = subscriptions.get(subscriptionId);
-        if (subscription == null) {
-            throw new SubscriptionNotFoundException();
-        }
-        return subscription;
+        return subscriptionRepository
+                .findById(subscriptionId)
+                .orElseThrow(SubscriptionNotFoundException::new);
     }
 
     @Override
     public List<Subscription> getAllSubscriptions() {
-        return new ArrayList<>(subscriptions.values());
+        List<Subscription> subs = new ArrayList<>();
+        subscriptionRepository.findAll().forEach(subs::add);
+        return subs;
     }
 }
 

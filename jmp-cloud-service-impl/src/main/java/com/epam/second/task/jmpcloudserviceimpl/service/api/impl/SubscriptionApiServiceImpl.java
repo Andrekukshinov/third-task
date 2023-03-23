@@ -7,6 +7,7 @@ import com.epam.second.task.jmpdto.model.SubscriptionRequestDto;
 import com.epam.second.task.jmpdto.model.SubscriptionResponseDto;
 import com.epam.second.task.jmpserviceapi.service.SubscriptionService;
 import com.epam.second.task.jmpserviceapi.service.api.SubscriptionApiService;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
