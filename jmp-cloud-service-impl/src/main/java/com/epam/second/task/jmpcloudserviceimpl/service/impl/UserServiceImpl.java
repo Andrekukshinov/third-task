@@ -2,7 +2,7 @@ package com.epam.second.task.jmpcloudserviceimpl.service.impl;
 
 import com.epam.second.task.jmpcloudserviceimpl.excpetion.UserNotFoundException;
 import com.epam.second.task.jmpdto.entity.User;
-import com.epam.second.task.jmpdto.repository.UserRepository;
+import com.epam.second.task.jmpserviceapi.service.repository.UserRepository;
 import com.epam.second.task.jmpserviceapi.service.UserService;
 import jakarta.transaction.Transactional;
 import java.util.List;

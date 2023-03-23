@@ -1,4 +1,4 @@
-package com.epam.second.task.jmpdto.repository;
+package com.epam.second.task.jmpserviceapi.service.repository;
 
 import com.epam.second.task.jmpdto.entity.Subscription;
 import org.springframework.data.repository.CrudRepository;
