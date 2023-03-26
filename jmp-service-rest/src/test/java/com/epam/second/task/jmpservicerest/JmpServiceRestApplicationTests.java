@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootTest
-@ComponentScan(lazyInit = true, basePackages = "com.epam.second.task")
+@ComponentScan(/*lazyInit = true,*/ basePackages = "com.epam.second.task")
 class JmpServiceRestApplicationTests {
 
 	@Test

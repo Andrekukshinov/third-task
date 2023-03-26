@@ -4,10 +4,11 @@ import com.epam.second.task.jmpcloudserviceimpl.excpetion.SubscriptionNotFoundEx
 import com.epam.second.task.jmpdto.entity.Subscription;
 import com.epam.second.task.jmpserviceapi.service.repository.SubscriptionRepository;
 import com.epam.second.task.jmpserviceapi.service.SubscriptionService;
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service

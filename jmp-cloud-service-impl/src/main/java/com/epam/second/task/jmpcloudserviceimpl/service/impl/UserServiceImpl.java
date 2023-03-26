@@ -4,13 +4,14 @@ import com.epam.second.task.jmpcloudserviceimpl.excpetion.UserNotFoundException;
 import com.epam.second.task.jmpdto.entity.User;
 import com.epam.second.task.jmpserviceapi.service.repository.UserRepository;
 import com.epam.second.task.jmpserviceapi.service.UserService;
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
